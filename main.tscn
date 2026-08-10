@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://oujgr6odgl40"]
+
+[ext_resource type="Script" uid="uid://t4mvaaigdvvi" path="res://main.gd" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://dym32067lauc4" path="res://constructions/arc.tscn" id="2_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://b65vkpycnhsd3" path="res://constructions/point.tscn" id="3_lquwl"]
+[ext_resource type="PackedScene" uid="uid://dg45gkhqgunoj" path="res://constructions/line.tscn" id="4_7mycd"]
+
+[node name="Main" type="Control" unique_id=1196988772]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ig7tw")
+arc_scene = ExtResource("2_1bvp3")
+point_scene = ExtResource("3_lquwl")
+line_scene = ExtResource("4_7mycd")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1133597888]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Canvas" type="Node2D" parent="." unique_id=2026760545]
+position = Vector2(540, 295)
+
+[node name="Constructions" type="Node2D" parent="Canvas" unique_id=2118746244]
+
+[node name="Points" type="Node2D" parent="Canvas" unique_id=496866555]

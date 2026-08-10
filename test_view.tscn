@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://cmq3xvcgo8bpb"]
 
-[ext_resource type="PackedScene" uid="uid://b65vkpycnhsd3" path="res://point.tscn" id="1_tawah"]
-[ext_resource type="PackedScene" uid="uid://dg45gkhqgunoj" path="res://line.tscn" id="2_mok87"]
-[ext_resource type="PackedScene" uid="uid://dym32067lauc4" path="res://arc.tscn" id="3_4ys6g"]
+[ext_resource type="PackedScene" uid="uid://b65vkpycnhsd3" path="res://constructions/point.tscn" id="1_tawah"]
+[ext_resource type="PackedScene" uid="uid://dg45gkhqgunoj" path="res://constructions/line.tscn" id="2_mok87"]
+[ext_resource type="PackedScene" uid="uid://dym32067lauc4" path="res://constructions/arc.tscn" id="3_4ys6g"]
 
 [node name="Node2D" type="Node2D" unique_id=406409150]
 
