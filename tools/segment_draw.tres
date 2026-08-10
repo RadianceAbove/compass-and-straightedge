@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="SegmentDrawTool" format=3 uid="uid://dovpcad2gmd6k"]
+
+[ext_resource type="Script" uid="uid://ch53a4nthxma7" path="res://tools/segment_draw.gd" id="1_150cr"]
+
+[resource]
+script = ExtResource("1_150cr")
+name = "Segment"
+metadata/_custom_type_script = "uid://ch53a4nthxma7"

@@ -1,4 +1,4 @@
-extends Control
+class_name MainScene extends Control
 
 @onready var canvas : Node2D = self.find_child("Canvas")
 @onready var point_container : Node2D = self.find_child("Canvas").find_child("Points")
@@ -6,11 +6,14 @@ extends Control
 @export var arc_scene : PackedScene
 @export var point_scene : PackedScene
 @export var line_scene : PackedScene
+@export var tool_button_scene : PackedScene
+@export var tools : Array[Tool]
+var current_tool : Tool = null
 var arcs : Array[Arc] = []
 var points : Array[Point] = []
 var lines : Array[Line] = []
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready() -> void:
 	# Create the starting canvas:
 	var rad = 200
@@ -20,12 +23,19 @@ func _ready() -> void:
 		var theta : float = i*2*PI/12
 		var pos = Vector2(cos(theta)*rad,sin(theta)*rad)
 		create_point(pos)
+	
+	# Set the starting tool
+	current_tool = tools[0]
+	tools[0].main = self
 
 func _process(_delta: float) -> void:
 	canvas.position = Vector2(get_viewport_rect().end/2)
+	
+	if Input.is_action_just_pressed("deselect"):
+		current_tool.on_deselect()
 
-func _on_point_clicked(_point : Point) -> void:
-	pass
+func _on_point_clicked(point : Point) -> void:
+	current_tool.on_point_clicked(point)
 
 func create_arc(center : Vector2, radius : float, start_angle : float, end_angle : float) -> void:
 	var arc : Arc = arc_scene.instantiate()
@@ -38,14 +48,17 @@ func create_arc(center : Vector2, radius : float, start_angle : float, end_angle
 
 func create_point(pos : Vector2) -> void:
 	var p : Point = point_scene.instantiate()
-	p.coords = pos
+	p.position = pos
 	point_container.add_child(p)
 	points.append(p)
 	p.clicked.connect(_on_point_clicked.bind(p))
 
 func create_line(p_1 : Vector2, p_2 : Vector2) -> void:
+	
+	
 	var line : Line = line_scene.instantiate()
 	line.point_1 = p_1
 	line.point_2 = p_2
 	constructions_container.add_child(line)
 	lines.append(line)
+	

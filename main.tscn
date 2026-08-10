@@ -4,6 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://dym32067lauc4" path="res://constructions/arc.tscn" id="2_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://b65vkpycnhsd3" path="res://constructions/point.tscn" id="3_lquwl"]
 [ext_resource type="PackedScene" uid="uid://dg45gkhqgunoj" path="res://constructions/line.tscn" id="4_7mycd"]
+[ext_resource type="Script" uid="uid://ixre0pt1fc2s" path="res://tools/base_tool.gd" id="5_7mycd"]
+[ext_resource type="Resource" uid="uid://dovpcad2gmd6k" path="res://tools/segment_draw.tres" id="6_272bh"]
 
 [node name="Main" type="Control" unique_id=1196988772]
 layout_mode = 3
@@ -12,10 +14,12 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_ig7tw")
 arc_scene = ExtResource("2_1bvp3")
 point_scene = ExtResource("3_lquwl")
 line_scene = ExtResource("4_7mycd")
+tools = Array[ExtResource("5_7mycd")]([ExtResource("6_272bh")])
 
 [node name="Background" type="ColorRect" parent="." unique_id=1133597888]
 layout_mode = 1
@@ -24,6 +28,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="Canvas" type="Node2D" parent="." unique_id=2026760545]
 position = Vector2(540, 295)
