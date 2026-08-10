@@ -1,4 +1,4 @@
-class_name line extends Node2D
+class_name Line extends Node2D
 
 @export var point_1 : Vector2
 @export var point_2 : Vector2

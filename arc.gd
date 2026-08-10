@@ -1,4 +1,4 @@
-class_name arc extends Node2D
+class_name Arc extends Node2D
 
 @export var center : Vector2 = Vector2(0,0)
 @export var radius : float = 10
