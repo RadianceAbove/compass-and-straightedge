@@ -52,7 +52,7 @@ func is_parallel(line : Line) -> bool:
 	return is_equal_approx(get_slope(),line.get_slope())
 
 # return the position of intersections between this line and another
-func get_line_intersection(line : Line) -> Array[Vector2]:
+func get_line_intersections(line : Line) -> Array[Vector2]:
 	var out : Array[Vector2] = []
 	if is_parallel(line):
 		return out
@@ -66,6 +66,7 @@ func get_line_intersection(line : Line) -> Array[Vector2]:
 		out.append(Vector2(x,y))
 	return out
 
+# return the position of intersections between this line and an arc
 func get_arc_intersections(arc : Arc) -> Array[Vector2]:
 	var out : Array[Vector2] = []
 	var dx = point_2.x - point_1.x

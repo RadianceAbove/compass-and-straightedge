@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="CircleDrawTool" format=3 uid="uid://b8n0oi3boua4s"]
+
+[ext_resource type="Script" uid="uid://dycm083af1778" path="res://tools/circle_draw.gd" id="1_fivhy"]
+
+[resource]
+script = ExtResource("1_fivhy")
+name = "Circle"
+metadata/_custom_type_script = "uid://dycm083af1778"

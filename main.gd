@@ -3,6 +3,7 @@ class_name MainScene extends Control
 @onready var canvas : Node2D = self.find_child("Canvas")
 @onready var point_container : Node2D = self.find_child("Canvas").find_child("Points")
 @onready var constructions_container : Node2D = self.find_child("Canvas").find_child("Constructions")
+@onready var tool_list : VBoxContainer = self.find_child("ToolList")
 @export var arc_scene : PackedScene
 @export var point_scene : PackedScene
 @export var line_scene : PackedScene
@@ -27,7 +28,12 @@ func _ready() -> void:
 	
 	# Set the starting tool
 	current_tool = tools[0]
-	tools[0].main = self
+	for tool in tools:
+		tool.main = self
+		var tool_button : Button = tool_button_scene.instantiate()
+		tool_button.text = tool.name
+		tool_list.add_child(tool_button)
+		tool_button.pressed.connect(_on_tool_selected.bind(tool))
 
 func _process(_delta: float) -> void:
 	canvas.position = Vector2(get_viewport_rect().end/2)
@@ -38,12 +44,30 @@ func _process(_delta: float) -> void:
 func _on_point_clicked(point : Point) -> void:
 	current_tool.on_point_clicked(point)
 
+func _on_tool_selected(tool : Tool) -> void:
+	current_tool.on_deselect()
+	current_tool = tool
+
 func create_arc(center : Vector2, radius : float, start_angle : float, end_angle : float) -> void:
 	var arc : Arc = arc_scene.instantiate()
 	arc.radius = radius
 	arc.position = center
 	arc.start_angle = start_angle
 	arc.end_angle = end_angle
+	
+	var intersections : Array[Vector2]
+	
+	for a in arcs:
+		if arc.is_equal(a):
+			return
+		intersections.append_array(arc.get_arc_intersections(a))
+	
+	for l in lines:
+		intersections.append_array(arc.get_line_intersections(l))
+	
+	for v in intersections:
+		create_point(v)
+	
 	constructions_container.add_child(arc)
 	arcs.append(arc)
 
@@ -67,7 +91,7 @@ func create_line(p_1 : Vector2, p_2 : Vector2) -> void:
 	for l in lines:
 		if l.is_equal(line):
 			return
-		intersections.append_array(line.get_line_intersection(l))
+		intersections.append_array(line.get_line_intersections(l))
 	
 	for a in arcs:
 		intersections.append_array(line.get_arc_intersections(a))

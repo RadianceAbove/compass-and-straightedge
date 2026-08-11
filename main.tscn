@@ -5,7 +5,9 @@
 [ext_resource type="PackedScene" uid="uid://b65vkpycnhsd3" path="res://constructions/point.tscn" id="3_lquwl"]
 [ext_resource type="PackedScene" uid="uid://dg45gkhqgunoj" path="res://constructions/line.tscn" id="4_7mycd"]
 [ext_resource type="Script" uid="uid://ixre0pt1fc2s" path="res://tools/base_tool.gd" id="5_7mycd"]
+[ext_resource type="PackedScene" uid="uid://ct2n3yhgwe327" path="res://tools/tool_button.tscn" id="5_272bh"]
 [ext_resource type="Resource" uid="uid://dovpcad2gmd6k" path="res://tools/segment_draw.tres" id="6_272bh"]
+[ext_resource type="Resource" uid="uid://b8n0oi3boua4s" path="res://tools/cirlce_draw.tres" id="8_5vw27"]
 
 [node name="Main" type="Control" unique_id=1196988772]
 layout_mode = 3
@@ -19,7 +21,8 @@ script = ExtResource("1_ig7tw")
 arc_scene = ExtResource("2_1bvp3")
 point_scene = ExtResource("3_lquwl")
 line_scene = ExtResource("4_7mycd")
-tools = Array[ExtResource("5_7mycd")]([ExtResource("6_272bh")])
+tool_button_scene = ExtResource("5_272bh")
+tools = Array[ExtResource("5_7mycd")]([ExtResource("6_272bh"), ExtResource("8_5vw27")])
 
 [node name="Background" type="ColorRect" parent="." unique_id=1133597888]
 layout_mode = 1
@@ -36,3 +39,8 @@ position = Vector2(540, 295)
 [node name="Constructions" type="Node2D" parent="Canvas" unique_id=2118746244]
 
 [node name="Points" type="Node2D" parent="Canvas" unique_id=496866555]
+
+[node name="ToolList" type="VBoxContainer" parent="." unique_id=1514025762]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0

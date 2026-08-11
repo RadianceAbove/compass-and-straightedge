@@ -7,7 +7,6 @@ signal clicked
 func _on_area_event(_viewport, event, _shape_idx):
 	if event.is_action_pressed("select"):
 		clicked.emit()
-		print("selected")
 
 func _ready() -> void:
 	var pickable_area : Area2D = get_child(0)
