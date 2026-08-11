@@ -18,6 +18,7 @@ func _ready() -> void:
 	# Create the starting canvas:
 	var rad = 200
 	create_arc(Vector2.ZERO, rad, 0, 2*PI)
+	create_arc(Vector2(-200,0), rad, 0, 2*PI)
 	
 	for i in range(12):
 		var theta : float = i*2*PI/12
@@ -40,7 +41,7 @@ func _on_point_clicked(point : Point) -> void:
 func create_arc(center : Vector2, radius : float, start_angle : float, end_angle : float) -> void:
 	var arc : Arc = arc_scene.instantiate()
 	arc.radius = radius
-	arc.center = center
+	arc.position = center
 	arc.start_angle = start_angle
 	arc.end_angle = end_angle
 	constructions_container.add_child(arc)
@@ -68,10 +69,11 @@ func create_line(p_1 : Vector2, p_2 : Vector2) -> void:
 			return
 		intersections.append_array(line.get_line_intersection(l))
 	
+	for a in arcs:
+		intersections.append_array(line.get_arc_intersections(a))
+	
 	for v in intersections:
-		print(v)
 		create_point(v)
 	
 	constructions_container.add_child(line)
 	lines.append(line)
-	
