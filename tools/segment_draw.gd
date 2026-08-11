@@ -8,7 +8,8 @@ func on_point_clicked (point : Point) -> void:
 		selected_point = point
 		point_selected = true
 	else:
-		main.create_line(selected_point.position,point.position)
+		var created_arr := main.create_line(selected_point.position,point.position)
+		main.undo_stack.do_construction(created_arr)
 		point_selected = false
 
 func on_deselect() -> void:

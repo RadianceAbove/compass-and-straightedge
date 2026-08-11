@@ -17,6 +17,8 @@ var lines : Array[Line] = []
 var panning : bool = false
 var pan_offset : Vector2 = Vector2.ZERO
 
+var undo_stack : ActionStack = ActionStack.new(self)
+
 
 func _ready() -> void:
 	# Set up the canvas
@@ -41,6 +43,12 @@ func _ready() -> void:
 		tool_button.text = tool.name
 		tool_list.add_child(tool_button)
 		tool_button.pressed.connect(_on_tool_selected.bind(tool))
+	
+	# Set up Undo and Redo Buttons
+	var undo_button : Button = find_child("MainButtons").find_child("Undo")
+	undo_button.pressed.connect(undo_stack.undo)
+	var redo_button : Button = find_child("MainButtons").find_child("Redo")
+	redo_button.pressed.connect(undo_stack.redo)
 
 func _process(_delta: float) -> void:
 	# Handle inputs
@@ -70,7 +78,7 @@ func _on_tool_selected(tool : Tool) -> void:
 	current_tool.on_deselect()
 	current_tool = tool
 
-func create_arc(center : Vector2, radius : float, start_angle : float, end_angle : float) -> void:
+func create_arc(center : Vector2, radius : float, start_angle : float, end_angle : float) -> Array:
 	var arc : Arc = arc_scene.instantiate()
 	arc.radius = radius
 	arc.position = center
@@ -81,29 +89,35 @@ func create_arc(center : Vector2, radius : float, start_angle : float, end_angle
 	
 	for a in arcs:
 		if arc.is_equal(a):
-			return
+			return []
 		intersections.append_array(arc.get_arc_intersections(a))
 	
 	for l in lines:
 		intersections.append_array(arc.get_line_intersections(l))
 	
+	var out = []
 	for v in intersections:
-		create_point(v)
+		var p = create_point(v)
+		if p is Point:
+			out.append(p)
 	
 	constructions_container.add_child(arc)
 	arcs.append(arc)
+	out.append(arc)
+	return out
 
-func create_point(pos : Vector2) -> void:
+func create_point(pos : Vector2) -> Point:
 	var point : Point = point_scene.instantiate()
 	point.position = pos
 	for p in points:
 		if point.is_equal(p):
-			return
+			return 
 	point_container.add_child(point)
 	points.append(point)
 	point.clicked.connect(_on_point_clicked.bind(point))
+	return point
 
-func create_line(p_1 : Vector2, p_2 : Vector2) -> void:
+func create_line(p_1 : Vector2, p_2 : Vector2) -> Array:
 	var line : Line = line_scene.instantiate()
 	line.point_1 = p_1
 	line.point_2 = p_2
@@ -112,14 +126,19 @@ func create_line(p_1 : Vector2, p_2 : Vector2) -> void:
 	
 	for l in lines:
 		if l.is_equal(line):
-			return
+			return []
 		intersections.append_array(line.get_line_intersections(l))
 	
 	for a in arcs:
 		intersections.append_array(line.get_arc_intersections(a))
 	
+	var out = []
 	for v in intersections:
-		create_point(v)
+		var p = create_point(v)
+		if p is Point:
+			out.append(p)
 	
 	constructions_container.add_child(line)
 	lines.append(line)
+	out.append(line)
+	return out

@@ -12,7 +12,6 @@ func _ready() -> void:
 	var pickable_area : Area2D = get_child(0)
 	pickable_area.get_child(0).shape.radius = display_radius * 2
 	pickable_area.input_event.connect(_on_area_event)
-	
 
 func _draw() -> void:
 	draw_circle(Vector2(0,0), display_radius, color, true, -1, true)
