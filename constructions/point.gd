@@ -17,3 +17,9 @@ func _ready() -> void:
 
 func _draw() -> void:
 	draw_circle(Vector2(0,0), display_radius, color, true, -1, true)
+
+func is_equal(point : Point) -> bool:
+	if is_equal_approx(point.position.x, position.x) and is_equal_approx(point.position.y,position.y):
+		return true
+	else:
+		return false

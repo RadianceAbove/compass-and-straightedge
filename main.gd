@@ -47,18 +47,31 @@ func create_arc(center : Vector2, radius : float, start_angle : float, end_angle
 	arcs.append(arc)
 
 func create_point(pos : Vector2) -> void:
-	var p : Point = point_scene.instantiate()
-	p.position = pos
-	point_container.add_child(p)
-	points.append(p)
-	p.clicked.connect(_on_point_clicked.bind(p))
+	var point : Point = point_scene.instantiate()
+	point.position = pos
+	for p in points:
+		if point.is_equal(p):
+			return
+	point_container.add_child(point)
+	points.append(point)
+	point.clicked.connect(_on_point_clicked.bind(point))
 
 func create_line(p_1 : Vector2, p_2 : Vector2) -> void:
-	
-	
 	var line : Line = line_scene.instantiate()
 	line.point_1 = p_1
 	line.point_2 = p_2
+	
+	var intersections : Array[Vector2] = []
+	
+	for l in lines:
+		if l.is_equal(line):
+			return
+		intersections.append_array(line.get_line_intersection(l))
+	
+	for v in intersections:
+		print(v)
+		create_point(v)
+	
 	constructions_container.add_child(line)
 	lines.append(line)
 	
