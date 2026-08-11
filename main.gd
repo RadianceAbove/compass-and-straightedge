@@ -9,13 +9,20 @@ class_name MainScene extends Control
 @export var line_scene : PackedScene
 @export var tool_button_scene : PackedScene
 @export var tools : Array[Tool]
+@export var zoom_speed : float = .1
 var current_tool : Tool = null
 var arcs : Array[Arc] = []
 var points : Array[Point] = []
 var lines : Array[Line] = []
+var panning : bool = false
+var pan_offset : Vector2 = Vector2.ZERO
 
 
 func _ready() -> void:
+	# Set up the canvas
+	get_tree().root.size_changed.connect(_on_window_resized)
+	canvas.position = Vector2(get_viewport_rect().end/2)
+	
 	# Create the starting canvas:
 	var rad = 200
 	create_arc(Vector2.ZERO, rad, 0, 2*PI)
@@ -36,10 +43,25 @@ func _ready() -> void:
 		tool_button.pressed.connect(_on_tool_selected.bind(tool))
 
 func _process(_delta: float) -> void:
-	canvas.position = Vector2(get_viewport_rect().end/2)
-	
+	# Handle inputs
 	if Input.is_action_just_pressed("deselect"):
 		current_tool.on_deselect()
+	if Input.is_action_just_pressed("zoom_in"):
+		canvas.scale *= Vector2(1+zoom_speed,1+zoom_speed)
+	if Input.is_action_just_pressed("zoom_out"):
+		canvas.scale *= Vector2(1/(1+zoom_speed),1/(1+zoom_speed))
+		#canvas.scale.x = max(canvas.scale.x,0)
+		#canvas.scale.y = max(canvas.scale.y,0)
+	if Input.is_action_just_pressed("pan"):
+		pan_offset = canvas.position - get_local_mouse_position()
+		panning = true
+	if Input.is_action_just_released("pan"):
+		panning = false
+	if panning:
+		canvas.position = get_local_mouse_position() + pan_offset
+
+func _on_window_resized():
+	canvas.position = Vector2(get_viewport_rect().end/2)
 
 func _on_point_clicked(point : Point) -> void:
 	current_tool.on_point_clicked(point)
