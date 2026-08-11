@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="LineDrawTool" format=3 uid="uid://cpovj0l4pad5i"]
+
+[ext_resource type="Script" uid="uid://bo4ajw2s53vg6" path="res://tools/line_draw.gd" id="1_o8631"]
+
+[resource]
+script = ExtResource("1_o8631")
+name = "Line"
+metadata/_custom_type_script = "uid://bo4ajw2s53vg6"
