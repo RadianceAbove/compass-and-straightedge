@@ -27,6 +27,9 @@ keycode = 90
 [sub_resource type="Shortcut" id="Shortcut_g4v7s"]
 events = [SubResource("InputEventKey_4c57u")]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kek77"]
+bg_color = Color(0, 0.3137255, 0, 1)
+
 [node name="Main" type="Control" unique_id=1196988772]
 layout_mode = 3
 anchors_preset = 15
@@ -84,6 +87,12 @@ layout_mode = 2
 shortcut = SubResource("Shortcut_g4v7s")
 text = "Redo"
 
+[node name="ReferenceToggle" type="Button" parent="MainButtons" unique_id=1409845650]
+layout_mode = 2
+theme_override_styles/pressed = SubResource("StyleBoxFlat_kek77")
+toggle_mode = true
+text = "Create Reference"
+
 [node name="Export" type="Button" parent="MainButtons" unique_id=925757168]
 layout_mode = 2
 shortcut = SubResource("Shortcut_g4v7s")
@@ -109,5 +118,5 @@ placeholder_text = "Scale"
 oversampling_override = 1.0
 dialog_hide_on_ok = true
 access = 2
-filters = PackedStringArray("")
+filters = PackedStringArray("*.png ; PNG File")
 use_native_dialog = true

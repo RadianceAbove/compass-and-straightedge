@@ -5,11 +5,13 @@ class_name Line extends Node2D
 @export var color : Color
 @export var display_width : float = 2
 
-func _draw() -> void:
-	draw_line(point_1+position,point_2+position,color,display_width,true)
+var reference : bool = false
 
-func draw_export(image : Image, export_scale : float, center : Vector2) -> void:
-	pass
+func _draw() -> void:
+	if reference:
+		display_width = 1
+	
+	draw_line(point_1+position,point_2+position,color,display_width,true)
 
 # return the slope of the line, or INF if it is vertical
 func get_slope() -> float:

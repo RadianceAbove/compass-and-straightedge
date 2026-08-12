@@ -22,6 +22,7 @@ var undo_stack : ActionStack = ActionStack.new(self)
 @onready var export_width : LineEdit = self.find_child("MainButtons").find_child("SizeContainer").find_child("Width")
 @onready var export_height : LineEdit = self.find_child("MainButtons").find_child("SizeContainer").find_child("Height")
 @onready var export_scale : LineEdit = self.find_child("MainButtons").find_child("Scale")
+@onready var reference_toggle : Button = self.find_child("MainButtons").find_child("ReferenceToggle")
 
 func _ready() -> void:
 	# Set up the canvas
@@ -31,7 +32,6 @@ func _ready() -> void:
 	# Create the starting canvas:
 	var rad = 200
 	create_arc(Vector2.ZERO, rad, 0, 2*PI)
-	create_arc(Vector2(-200,0), rad, 0, 2*PI)
 	
 	for i in range(12):
 		var theta : float = i*2*PI/12
@@ -89,7 +89,6 @@ func _on_export_clicked() -> void:
 		export_dialog.visible = true
 
 func _on_export_confirmed(filepath : String) -> void:
-	print("saved")
 	var width = export_width.text.to_int()
 	var height = export_height.text.to_int()
 	var out_scale = export_scale.text.to_float()
@@ -101,9 +100,11 @@ func _on_export_confirmed(filepath : String) -> void:
 	var drawn_arcs : Array[Arc] = []
 	var drawn_lines : Array[Line] = []
 	for arc in arcs:
-		drawn_arcs.append(arc)
+		if not arc.reference:
+			drawn_arcs.append(arc)
 	for line in lines:
-		drawn_lines.append(line)
+		if not line.reference:
+			drawn_lines.append(line)
 	
 	var scribe : ExportScribe = ExportScribe.new()
 	scribe.drawn_arcs = drawn_arcs
@@ -123,6 +124,7 @@ func create_arc(center : Vector2, radius : float, start_angle : float, end_angle
 	arc.position = center
 	arc.start_angle = start_angle
 	arc.end_angle = end_angle
+	arc.reference = reference_toggle.button_pressed
 	
 	var intersections : Array[Vector2]
 	
@@ -160,6 +162,7 @@ func create_line(p_1 : Vector2, p_2 : Vector2) -> Array:
 	var line : Line = line_scene.instantiate()
 	line.point_1 = p_1
 	line.point_2 = p_2
+	line.reference = reference_toggle.button_pressed
 	
 	var intersections : Array[Vector2] = []
 	

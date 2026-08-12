@@ -7,7 +7,12 @@ class_name Arc extends Node2D
 @export var color : Color
 @export var segments : int = 100
 
+var reference : bool = false
+
 func _draw() -> void:
+	if reference:
+		display_width = 1
+	
 	draw_arc(Vector2.ZERO, radius, start_angle, end_angle, segments, color, display_width, true)
 
 # return if two arcs are identical
