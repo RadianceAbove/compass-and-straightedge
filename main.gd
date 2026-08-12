@@ -18,7 +18,10 @@ var panning : bool = false
 var pan_offset : Vector2 = Vector2.ZERO
 
 var undo_stack : ActionStack = ActionStack.new(self)
-
+@onready var export_dialog : FileDialog = self.find_child("ExportDialog")
+@onready var export_width : LineEdit = self.find_child("MainButtons").find_child("SizeContainer").find_child("Width")
+@onready var export_height : LineEdit = self.find_child("MainButtons").find_child("SizeContainer").find_child("Height")
+@onready var export_scale : LineEdit = self.find_child("MainButtons").find_child("Scale")
 
 func _ready() -> void:
 	# Set up the canvas
@@ -44,11 +47,14 @@ func _ready() -> void:
 		tool_list.add_child(tool_button)
 		tool_button.pressed.connect(_on_tool_selected.bind(tool))
 	
-	# Set up Undo and Redo Buttons
+	# Set Buttons
 	var undo_button : Button = find_child("MainButtons").find_child("Undo")
 	undo_button.pressed.connect(undo_stack.undo)
 	var redo_button : Button = find_child("MainButtons").find_child("Redo")
 	redo_button.pressed.connect(undo_stack.redo)
+	var export_button : Button = find_child("MainButtons").find_child("Export")
+	export_button.pressed.connect(_on_export_clicked)
+	export_dialog.file_selected.connect(_on_export_confirmed)
 
 func _process(_delta: float) -> void:
 	# Handle inputs
@@ -77,6 +83,39 @@ func _on_point_clicked(point : Point) -> void:
 func _on_tool_selected(tool : Tool) -> void:
 	current_tool.on_deselect()
 	current_tool = tool
+
+func _on_export_clicked() -> void:
+	if export_width.text.to_int() > 0 and export_height.text.to_int() > 0 and export_scale.text.to_int() > 0:
+		export_dialog.visible = true
+
+func _on_export_confirmed(filepath : String) -> void:
+	print("saved")
+	var width = export_width.text.to_int()
+	var height = export_height.text.to_int()
+	var out_scale = export_scale.text.to_float()
+	var out_offset = Vector2(float(width)/2,float(height)/2)
+	var view = SubViewport.new()
+	view.size = Vector2(width, height)
+	view.render_target_update_mode =SubViewport.UPDATE_DISABLED
+	view.transparent_bg = true
+	var drawn_arcs : Array[Arc] = []
+	var drawn_lines : Array[Line] = []
+	for arc in arcs:
+		drawn_arcs.append(arc)
+	for line in lines:
+		drawn_lines.append(line)
+	
+	var scribe : ExportScribe = ExportScribe.new()
+	scribe.drawn_arcs = drawn_arcs
+	scribe.drawn_lines = drawn_lines
+	scribe.scale = Vector2.ONE * out_scale
+	scribe.position = out_offset
+	
+	view.add_child(scribe)
+	add_child(view)
+	view.render_target_update_mode = SubViewport.UPDATE_ONCE
+	await RenderingServer.frame_post_draw
+	view.get_texture().get_image().save_png(filepath)
 
 func create_arc(center : Vector2, radius : float, start_angle : float, end_angle : float) -> Array:
 	var arc : Arc = arc_scene.instantiate()

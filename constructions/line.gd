@@ -8,6 +8,9 @@ class_name Line extends Node2D
 func _draw() -> void:
 	draw_line(point_1+position,point_2+position,color,display_width,true)
 
+func draw_export(image : Image, export_scale : float, center : Vector2) -> void:
+	pass
+
 # return the slope of the line, or INF if it is vertical
 func get_slope() -> float:
 	if is_equal_approx(point_1.x,point_2.x):

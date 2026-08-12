@@ -70,6 +70,7 @@ anchors_preset = 11
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -100.0
 grow_horizontal = 0
 grow_vertical = 2
 
@@ -82,3 +83,31 @@ text = "Undo"
 layout_mode = 2
 shortcut = SubResource("Shortcut_g4v7s")
 text = "Redo"
+
+[node name="Export" type="Button" parent="MainButtons" unique_id=925757168]
+layout_mode = 2
+shortcut = SubResource("Shortcut_g4v7s")
+text = "Export
+"
+
+[node name="SizeContainer" type="HBoxContainer" parent="MainButtons" unique_id=103965571]
+layout_mode = 2
+
+[node name="Width" type="LineEdit" parent="MainButtons/SizeContainer" unique_id=384744900]
+layout_mode = 2
+placeholder_text = "Width"
+
+[node name="Height" type="LineEdit" parent="MainButtons/SizeContainer" unique_id=68508025]
+layout_mode = 2
+placeholder_text = "Height"
+
+[node name="Scale" type="LineEdit" parent="MainButtons" unique_id=1996721435]
+layout_mode = 2
+placeholder_text = "Scale"
+
+[node name="ExportDialog" type="FileDialog" parent="." unique_id=1530154906]
+oversampling_override = 1.0
+dialog_hide_on_ok = true
+access = 2
+filters = PackedStringArray("")
+use_native_dialog = true
