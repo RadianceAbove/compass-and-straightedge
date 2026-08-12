@@ -11,9 +11,11 @@ config_version=5
 [application]
 
 config/name="Compass and Straightedge"
+config/version="1.00"
 run/main_scene="uid://oujgr6odgl40"
 config/features=PackedStringArray("4.7", "Forward Plus")
-config/icon="res://icon.svg"
+boot_splash/image="uid://b02v7857ou1k7"
+config/icon="uid://b02v7857ou1k7"
 
 [display]
 

@@ -46,6 +46,7 @@ tool_button_scene = ExtResource("5_272bh")
 tools = Array[ExtResource("5_7mycd")]([ExtResource("6_272bh"), ExtResource("8_5vw27"), ExtResource("9_kek77")])
 
 [node name="Background" type="ColorRect" parent="." unique_id=1133597888]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -95,13 +96,11 @@ text = "Create Reference"
 
 [node name="Export" type="Button" parent="MainButtons" unique_id=925757168]
 layout_mode = 2
-shortcut = SubResource("Shortcut_g4v7s")
 text = "Export
 "
 
 [node name="ExportFrame" type="Button" parent="MainButtons" unique_id=1512313307]
 layout_mode = 2
-shortcut = SubResource("Shortcut_g4v7s")
 text = "Export Frame"
 
 [node name="SizeContainer" type="HBoxContainer" parent="MainButtons" unique_id=103965571]
