@@ -99,6 +99,11 @@ shortcut = SubResource("Shortcut_g4v7s")
 text = "Export
 "
 
+[node name="ExportFrame" type="Button" parent="MainButtons" unique_id=1512313307]
+layout_mode = 2
+shortcut = SubResource("Shortcut_g4v7s")
+text = "Export Frame"
+
 [node name="SizeContainer" type="HBoxContainer" parent="MainButtons" unique_id=103965571]
 layout_mode = 2
 

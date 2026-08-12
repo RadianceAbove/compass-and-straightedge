@@ -24,6 +24,8 @@ var undo_stack : ActionStack = ActionStack.new(self)
 @onready var export_scale : LineEdit = self.find_child("MainButtons").find_child("Scale")
 @onready var reference_toggle : Button = self.find_child("MainButtons").find_child("ReferenceToggle")
 
+var exporting_frame = false
+
 func _ready() -> void:
 	# Set up the canvas
 	get_tree().root.size_changed.connect(_on_window_resized)
@@ -54,6 +56,8 @@ func _ready() -> void:
 	redo_button.pressed.connect(undo_stack.redo)
 	var export_button : Button = find_child("MainButtons").find_child("Export")
 	export_button.pressed.connect(_on_export_clicked)
+	var frame_button : Button = find_child("MainButtons").find_child("ExportFrame")
+	frame_button.pressed.connect(_on_export_clicked.bind(true))
 	export_dialog.file_selected.connect(_on_export_confirmed)
 
 func _process(_delta: float) -> void:
@@ -84,9 +88,10 @@ func _on_tool_selected(tool : Tool) -> void:
 	current_tool.on_deselect()
 	current_tool = tool
 
-func _on_export_clicked() -> void:
+func _on_export_clicked(frame_export : bool = false) -> void:
 	if export_width.text.to_int() > 0 and export_height.text.to_int() > 0 and export_scale.text.to_int() > 0:
 		export_dialog.visible = true
+		exporting_frame = frame_export
 
 func _on_export_confirmed(filepath : String) -> void:
 	var width = export_width.text.to_int()
@@ -111,6 +116,7 @@ func _on_export_confirmed(filepath : String) -> void:
 	scribe.drawn_lines = drawn_lines
 	scribe.scale = Vector2.ONE * out_scale
 	scribe.position = out_offset
+	scribe.frame = exporting_frame
 	
 	view.add_child(scribe)
 	add_child(view)
