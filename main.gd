@@ -11,6 +11,7 @@ class_name MainScene extends Control
 @export var tools : Array[Tool]
 @export var zoom_speed : float = .1
 var current_tool : Tool = null
+var _point_selected : bool = false
 var arcs : Array[Arc] = []
 var points : Array[Point] = []
 var lines : Array[Line] = []
@@ -25,6 +26,7 @@ var undo_stack : ActionStack = ActionStack.new(self)
 @onready var reference_toggle : Button = self.find_child("MainButtons").find_child("ReferenceToggle")
 
 var exporting_frame = false
+
 
 func _ready() -> void:
 	# Set up the canvas
@@ -77,12 +79,18 @@ func _process(_delta: float) -> void:
 		panning = false
 	if panning:
 		canvas.position = get_local_mouse_position() + pan_offset
+	
+	# Ensure only one point is selected per frame
+	_point_selected = false
 
 func _on_window_resized():
 	canvas.position = Vector2(get_viewport_rect().end/2)
 
+# only call this once per frame
 func _on_point_clicked(point : Point) -> void:
-	current_tool.on_point_clicked(point)
+	if not _point_selected:
+		current_tool.on_point_clicked(point)
+		_point_selected = true
 
 func _on_tool_selected(tool : Tool) -> void:
 	current_tool.on_deselect()

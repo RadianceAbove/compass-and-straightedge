@@ -92,7 +92,7 @@ func get_arc_intersections(arc : Arc) -> Array[Vector2]:
 	var out_1 = Vector2(x,y) + arc.position
 	var theta = fposmod(atan2(y,x),2*PI)
 	if (is_equal_approx(x+arc.position.x,point_1.x) or is_equal_approx(x+arc.position.x,point_2.x) or (point_1.x < x+arc.position.x and x+arc.position.x < point_2.x) or (point_2.x < x+arc.position.x and x+arc.position.x < point_1.x)) and \
-		(is_equal_approx(arc.start_angle,theta) or arc.start_angle < theta) and (is_equal_approx(theta,arc.end_angle) or theta < arc.end_angle):
+			arc.angle_is_included(theta):
 		out.append(out_1)
 		print(out_1)
 	
@@ -102,7 +102,7 @@ func get_arc_intersections(arc : Arc) -> Array[Vector2]:
 	if (is_equal_approx(out_1.x,x+arc.position.x) and is_equal_approx(out_1.y,y+arc.position.y)):
 		return out
 	if (is_equal_approx(x+arc.position.x,point_1.x) or is_equal_approx(x+arc.position.x,point_2.x) or (point_1.x < x+arc.position.x and x+arc.position.x < point_2.x) or (point_2.x < x+arc.position.x and x+arc.position.x < point_1.x)) and \
-		(is_equal_approx(arc.start_angle,theta) or arc.start_angle < theta) and (is_equal_approx(theta,arc.end_angle) or theta < arc.end_angle):
+			arc.angle_is_included(theta):
 		out.append(Vector2(x,y)+arc.position)
 		print(Vector2(x,y))
 	
