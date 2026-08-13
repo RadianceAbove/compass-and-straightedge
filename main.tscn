@@ -9,6 +9,7 @@
 [ext_resource type="Resource" uid="uid://dovpcad2gmd6k" path="res://tools/segment_draw.tres" id="6_272bh"]
 [ext_resource type="Resource" uid="uid://b8n0oi3boua4s" path="res://tools/circle_draw.tres" id="8_5vw27"]
 [ext_resource type="Resource" uid="uid://cpovj0l4pad5i" path="res://tools/line_draw.tres" id="9_kek77"]
+[ext_resource type="Resource" uid="uid://diws5cap41lad" path="res://tools/arc_draw.tres" id="10_4c57u"]
 
 [sub_resource type="InputEventKey" id="InputEventKey_kek77"]
 device = -1
@@ -43,10 +44,9 @@ arc_scene = ExtResource("2_1bvp3")
 point_scene = ExtResource("3_lquwl")
 line_scene = ExtResource("4_7mycd")
 tool_button_scene = ExtResource("5_272bh")
-tools = Array[ExtResource("5_7mycd")]([ExtResource("6_272bh"), ExtResource("8_5vw27"), ExtResource("9_kek77")])
+tools = Array[ExtResource("5_7mycd")]([ExtResource("6_272bh"), ExtResource("9_kek77"), ExtResource("8_5vw27"), ExtResource("10_4c57u")])
 
 [node name="Background" type="ColorRect" parent="." unique_id=1133597888]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="ArcDrawTool" format=3 uid="uid://diws5cap41lad"]
+
+[ext_resource type="Script" uid="uid://bh2bghghjfox1" path="res://tools/arc_draw.gd" id="1_2mxwf"]
+
+[resource]
+script = ExtResource("1_2mxwf")
+name = "Arc"
+metadata/_custom_type_script = "uid://bh2bghghjfox1"

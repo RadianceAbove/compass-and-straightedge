@@ -46,6 +46,14 @@ func is_seperate(arc : Arc) -> bool:
 func get_line_intersections(line : Line) -> Array[Vector2]:
 	return line.get_arc_intersections(self)
 
+func angle_is_included(theta : float):
+	var is_in = (is_equal_approx(theta,start_angle) or start_angle<theta) and \
+				(is_equal_approx(theta,end_angle)   or theta < end_angle)
+	theta -= 2*PI
+	var is_in_offset = (is_equal_approx(theta,start_angle) or start_angle<theta) and \
+				(is_equal_approx(theta,end_angle)   or theta < end_angle)
+	return is_in or is_in_offset
+
 # return the position of intersectionss between this arc and another
 func get_arc_intersections(arc : Arc) -> Array[Vector2]:
 	# see https://stackoverflow.com/questions/3349125/circle-circle-intersection-points
@@ -67,8 +75,7 @@ func get_arc_intersections(arc : Arc) -> Array[Vector2]:
 	var theta_1 = fposmod(atan2(y-position.y,x-position.x),2*PI)
 	var theta_2 = fposmod(atan2(y-arc.position.y,x-arc.position.x),2*PI)
 	var vec = Vector2(x,y)
-	if (is_equal_approx(start_angle,theta_1) or start_angle < theta_1) and (is_equal_approx(theta_1,end_angle) or theta_1 < end_angle) and \
-		(is_equal_approx(arc.start_angle,theta_2) or arc.start_angle < theta_2) and (is_equal_approx(theta_2,arc.end_angle) or theta_2 < arc.end_angle):
+	if angle_is_included(theta_1) and arc.angle_is_included(theta_2):
 		out.append(vec)
 	
 	# do the same for the second intersection point
@@ -76,9 +83,8 @@ func get_arc_intersections(arc : Arc) -> Array[Vector2]:
 	y = p2.y + h*(arc.position.x-position.x)/d
 	theta_1 = fposmod(atan2(y-position.y,x-position.x),2*PI)
 	theta_2 = fposmod(atan2(y-arc.position.y,x-arc.position.x),2*PI)
-	if (is_equal_approx(start_angle,theta_1) or start_angle < theta_1) and (is_equal_approx(theta_1,end_angle) or theta_1 < end_angle) and \
-		(is_equal_approx(arc.start_angle,theta_2) or arc.start_angle < theta_2) and (is_equal_approx(theta_2,arc.end_angle) or theta_2 < arc.end_angle) and \
-		not (is_equal_approx(x,vec.x) and is_equal_approx(y,vec.y)):
+	if angle_is_included(theta_1) and arc.angle_is_included(theta_2) and \
+			not (is_equal_approx(x,vec.x) and is_equal_approx(y,vec.y)):
 		out.append(Vector2(x,y))
 	
 	return out
